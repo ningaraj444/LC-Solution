@@ -1,0 +1,25 @@
+//nums[i]+nums[j]+nums[j] =0
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+    int n = nums.size();
+    set<vector<int>> res;
+
+    for (int i = 0; i < n; ++i) {
+        unordered_set<int> seen;
+        for (int j = i + 1; j < n; ++j) {
+            int third = -nums[i] - nums[j];
+            if (seen.count(third)) {
+                vector<int> triplet = {nums[i], nums[j], third};
+                sort(triplet.begin(), triplet.end());
+                res.insert(triplet);
+            }
+            seen.insert(nums[j]);
+        }
+    }
+
+    return vector<vector<int>>(res.begin(), res.end());
+}
+
+};
