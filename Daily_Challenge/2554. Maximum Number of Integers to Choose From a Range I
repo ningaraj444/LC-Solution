@@ -1,0 +1,23 @@
+
+class Solution {
+public:
+    int maxCount(vector<int>& banned, int n, int maxSum) {
+        int m= banned.size();
+        int sum=0;
+        int num=1;
+        int idx=0;
+        int cnt=0;
+        sort(banned.begin(),banned.end());
+        for(int num=1;num<=n;num++){
+            if( idx< m && num==banned[idx]) {
+                idx++;
+                continue;
+            }    
+           
+            if(sum+num>maxSum) break;
+             sum+=num;
+                 cnt++;
+        }
+        return cnt;
+    }
+};
