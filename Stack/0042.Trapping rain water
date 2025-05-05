@@ -1,0 +1,29 @@
+// tc o(n)  sc o(1)
+
+class Solution {
+public:
+   int trap(vector<int>& height) {
+   int sum=0;
+   int n= height.size();
+   int l=0;
+   int r=n-1;
+   int leftMax=height[0];
+   int rightMax=height[n-1];
+   while(l<r){
+    if(leftMax<=rightMax){
+        sum+=leftMax-height[l];
+        l++;
+        leftMax=max(leftMax,height[l]);
+    }
+    else{
+        sum+=rightMax-height[r];
+        r--;
+        rightMax=max(rightMax,height[r]);
+    }
+   }
+   return sum;
+}
+};
+
+// using prefix sum array and suffix sum array tc-->o(3n) and sc -->o(n+n)
+//finding lfetmax and right max using double loop  tc-->o(n^2)  and sc -->o(1)

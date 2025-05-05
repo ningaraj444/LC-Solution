@@ -1,0 +1,69 @@
+
+
+class LFUCache {
+public:
+    class node {
+    public:
+        int key;
+        int val;
+        int freq;  // Track frequency of usage
+        node(int _key, int _val) : key(_key), val(_val), freq(1) {}
+    };
+    
+    unordered_map<int, node*> keyNode;  // Maps key to node
+    unordered_map<int, list<node*>> freqMap;  // Maps frequency to list of nodes
+    int minFreq;
+    int cap;
+    int size;
+    
+    LFUCache(int capacity) {
+        cap = capacity;
+        size = 0;
+        minFreq = 0;
+    }
+    
+    int get(int key) {
+        if (keyNode.find(key) == keyNode.end()) return -1;
+        
+        node* curNode = keyNode[key];
+        updateNode(curNode);  // Update frequency of the node
+        
+        return curNode->val;
+    }
+    
+    void put(int key, int value) {
+        if (cap == 0) return;
+        
+        if (keyNode.find(key) != keyNode.end()) {
+            node* curNode = keyNode[key];
+            curNode->val = value;
+            updateNode(curNode);  // Update frequency of the node
+        } else {
+            if (size == cap) {
+                // Evict the least frequently used node
+                node* evictNode = freqMap[minFreq].back();
+                freqMap[minFreq].pop_back();
+                keyNode.erase(evictNode->key);
+                size--;
+            }
+            
+            node* newNode = new node(key, value);
+            keyNode[key] = newNode;
+            freqMap[1].push_front(newNode);  // Insert new node with freq = 1
+            minFreq = 1;
+            size++;
+        }
+    }
+    
+    void updateNode(node* curNode) {
+        int curFreq = curNode->freq;
+        freqMap[curFreq].remove(curNode);  // Remove node from current freq list
+        
+        if (freqMap[curFreq].empty() && curFreq == minFreq) {
+            minFreq++;  // Update minFreq if this was the last node with that frequency
+        }
+        
+        curNode->freq++;  // Increase the frequency
+        freqMap[curNode->freq].push_front(curNode);  // Add node to new freq list
+    }
+};

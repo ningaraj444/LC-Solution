@@ -1,0 +1,26 @@
+tc -->o(n) sc-->o(n)
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        int n=num.length();
+        list<char>st;
+      
+        for(int i=0;i<n;i++){
+            while(!st.empty() && k>0 && st.back()>num[i]){
+                st.pop_back();
+                k--;
+            }
+            if(st.empty() && num[i]=='0')
+               continue;
+            else
+            st.push_back(num[i]);
+        }
+        while (k > 0 && !st.empty()) {
+            st.pop_back();
+            k--;
+        }
+        string s(st.begin(),st.end());
+        return s.empty()?"0":s;
+    }   
+};
