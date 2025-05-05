@@ -1,0 +1,67 @@
+
+class Solution {
+private:
+    void dfs(int start, vector<int>& vis, vector<vector<int>>& adjlis) {
+        vis[start] = 1;
+        for (auto it : adjlis[start]) {
+            if (!vis[it]) {
+                dfs(it, vis, adjlis);
+            }
+        }
+    }
+
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<vector<int>> adjlis(n);
+
+        for (int i = 0; i < n; i++) {  
+            for (int j = 0; j < n; j++) {
+                if (isConnected[i][j] == 1 && i != j) {
+                    adjlis[i].push_back(j);
+                    adjlis[j].push_back(i);
+                }
+            }
+        }
+
+        int cnt = 0;
+        vector<int> vis(n, 0);
+
+        for (int i = 0; i < n; i++) {  
+            if (!vis[i]) {
+                cnt++;
+                dfs(i, vis, adjlis);
+            }
+        }
+        return cnt;
+    }
+};
+
+// using adjacent matrix
+
+class Solution {
+public:
+    void dfs(int node, vector<vector<int>>& isConnected, vector<bool>& visit) {
+        visit[node] = true;
+        for (int i = 0; i < isConnected.size(); i++) {
+            if (isConnected[node][i] && !visit[i]) {
+                dfs(i, isConnected, visit);
+            }
+        }
+    }
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        int numberOfComponents = 0;
+        vector<bool> visit(n);
+
+        for (int i = 0; i < n; i++) {
+            if (!visit[i]) {
+                numberOfComponents++;
+                dfs(i, isConnected, visit);
+            }
+        }
+
+        return numberOfComponents;
+    }
+};
