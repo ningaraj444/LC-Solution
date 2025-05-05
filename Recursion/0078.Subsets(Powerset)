@@ -1,0 +1,19 @@
+
+class Solution {
+public:
+    void power( vector<vector<int>>&result, vector<int>&set,int indx, vector<int>&nums){
+        result.push_back(set);
+        for(int i=indx;i<nums.size();i++){
+            set.push_back(nums[i]);
+            power(result,set,i+1,nums);
+            set.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> set;
+        power(result,set,0,nums);
+        return result;
+    }
+};

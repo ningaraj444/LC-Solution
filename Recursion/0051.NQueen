@@ -1,0 +1,27 @@
+
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>result;
+        vector<string>queen(n,string(n,'.'));
+        vector<int>columns(n,0);
+        vector<int>diagonals(2*n-1,0);
+        vector<int>antidiagonals(2*n-1,0);
+        nqueen(result,queen,columns,diagonals,antidiagonals,n,0);
+        return result;
+    }
+    void nqueen(vector<vector<string>>&result,vector<string>&queen,vector<int>&columns,vector<int>&diagonals,vector<int>&antidiagonals,int n,int row){
+        if(row==n){
+            result.push_back(queen);
+            return;
+        }
+        for(int col=0;col<n;col++){
+            if(columns[col]||diagonals[row-col+n-1]||antidiagonals[col+row]) continue;
+               queen[row][col]='Q';
+               columns[col]=diagonals[row-col+n-1]=antidiagonals[row+col]=1;
+               nqueen(result,queen,columns,diagonals,antidiagonals,n,row+1);
+               queen[row][col]='.';
+               columns[col]=diagonals[row-col+n-1]=antidiagonals[row+col]=0;
+        }
+    }
+};

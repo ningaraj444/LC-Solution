@@ -1,0 +1,54 @@
+tc-->o(2^n) sc-->o(n)
+
+class Solution {
+public:
+   void helper(vector<string>&result,string&s,int left,int right,int max){
+    if(s.length()==2*max){
+        result.push_back(s);
+        return ;
+    }
+    if(left<max){
+        s.push_back('(');
+        helper(result,s,left+1,right,max);
+        s.pop_back();
+    }
+    if(right<left){
+        s.push_back(')');
+        helper(result,s,left,right+1,max);
+        s.pop_back();
+    }
+    
+   }
+    vector<string> generateParenthesis(int n) {
+        vector<string>result;
+        string s;
+        helper(result,s,0,0,n);
+        return result;
+    }
+};
+
+another solution -->
+
+
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        backtrack(result, "", 0, 0, n);
+        return result;
+    }
+
+private:
+    void backtrack(vector<string>& result, string current, int openCount, int closeCount, int max) {
+        if (current.length() == max * 2) {  
+            result.push_back(current);
+            return;
+        }
+        if (openCount < max) {  
+            backtrack(result, current + "(", openCount + 1, closeCount, max);
+        }
+        if (closeCount < openCount) {  
+            backtrack(result, current + ")", openCount, closeCount + 1, max);
+        }
+    }
+};

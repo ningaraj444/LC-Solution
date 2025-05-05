@@ -1,0 +1,22 @@
+
+class Solution {
+public:
+    void sets(vector<vector<int>>&result,vector<int>&list,int k,int target,int num){
+        if(target==0 && list.size()==k){
+            result.push_back(list);
+            return;
+        }
+        if(target<0 || list.size()>k) return;
+        for(int i=num;i<=9;i++){
+            list.push_back(i);
+            sets(result,list,k,target-i,i+1);
+            list.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>>result;
+        vector<int>list;
+        sets(result,list,k,n,1);
+        return result;
+    }
+};

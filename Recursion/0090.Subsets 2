@@ -1,0 +1,20 @@
+
+class Solution {
+public:
+   void power( vector<vector<int>>&result, vector<int>&set,int indx, vector<int>&nums){
+        result.push_back(set);
+        for(int i=indx;i<nums.size();i++){
+             if (i>indx && nums[i] == nums[i - 1]) continue;
+            set.push_back(nums[i]);
+            power(result,set,i+1,nums);
+            set.pop_back();
+        }
+   }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+           sort(nums.begin(), nums.end());
+         vector<vector<int>> result;
+        vector<int> set;
+        power(result,set,0,nums);
+        return result;
+    }
+};

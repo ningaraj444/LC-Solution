@@ -1,0 +1,32 @@
+
+class Solution {
+public:
+   void partion(vector<vector<string>>&result,vector<string>&str,string&s,int start){
+    if(start==s.length()){
+        result.push_back(str);
+        return;
+    }
+    for(int i=start;i<s.length();i++){
+        if(ispalindrome(s,start,i)){
+            str.push_back(s.substr(start,i-start+1));
+            partion(result,str,s,i+1);
+            str.pop_back();
+        }
+    }
+   }
+   bool ispalindrome(string&s,int left,int right){
+    while(left<right){
+        if(s[left]!=s[right]) return false;
+        left++;
+        right--;
+    }
+    return true;
+   }
+    vector<vector<string>> partition(string s) {
+       vector<vector<string>>result;
+       vector<string>str;
+       partion(result,str,s,0);
+       return result;
+    }
+
+};

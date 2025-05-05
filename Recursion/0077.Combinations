@@ -1,0 +1,21 @@
+
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>>result;
+        vector<int>list;
+        combination(result,list,n,k,1);
+        return result;
+    }
+    void combination (vector<vector<int>>&result,vector<int>&list,int n,int k,int idx){
+        if(list.size()==k){
+            result.push_back(list);
+            return ;
+        }
+        for(int i=idx;i<=n;i++){
+            list.push_back(i);
+            combination (result,list,n,k,i+1);
+            list.pop_back();
+        }
+    }
+};
