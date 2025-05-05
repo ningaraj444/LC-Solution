@@ -1,3 +1,4 @@
+tc -> maybe o(n/2) 
 
 class Solution {
 public:
