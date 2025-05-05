@@ -1,0 +1,54 @@
+brute force -->
+
+ class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int n=nums.size();
+        int right=0,left=0;
+        int numsub=0;
+        int oddnums=0;
+        while(right<n){
+            if(nums[right]%2!=0) oddnums++;
+            while(oddnums>k){
+                if(nums[left]%2!=0) oddnums--;
+                left++;
+            }
+            int temp=left;
+            while(oddnums==k && temp<=right){
+                numsub++;
+                if(nums[temp]%2!=0) break;
+                temp++;
+            }
+            right++;
+        }
+        return numsub;
+    }
+};
+
+optimal -->
+
+class Solution {
+public:
+    int numsub(vector<int>&nums,int k){
+        int n=nums.size();
+        int right=0,left=0;
+        int numberof_sub=0;
+        int oddnum=0;
+        while(right<n){
+          if(nums[right]%2!=0) oddnum++;
+            while(oddnum>k){
+                if(nums[left]%2!=0) oddnum--;
+                left++;
+            }
+            numberof_sub+=right-left+1;
+            right++;
+        }
+        return numberof_sub;
+    }
+
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int numsub_k=numsub(nums,k);
+        int numsub_k_minus_one=numsub(nums,k-1);
+        return numsub_k-numsub_k_minus_one;
+    }
+};

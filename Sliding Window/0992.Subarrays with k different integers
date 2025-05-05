@@ -1,0 +1,27 @@
+
+class Solution {
+public:
+    int subarrayDistinct(vector<int>&nums,int k){
+        int n=nums.size();
+        int right=0,left=0;
+        int numsub=0;
+        unordered_map<int,int>mpp;
+        while(right<n){
+            mpp[nums[right]]++;
+            while(mpp.size()>k){
+               mpp[nums[left]]--;
+               if(mpp[nums[left]]==0) mpp.erase(nums[left]);
+               left++;
+            }
+            numsub+=right-left+1;
+            right++;
+        }
+        return numsub;
+    }
+
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+       int subarray_k=subarrayDistinct(nums,k);
+       int subarray_k_minus_one=subarrayDistinct(nums,k-1);
+       return subarray_k-subarray_k_minus_one;
+    }
+};
