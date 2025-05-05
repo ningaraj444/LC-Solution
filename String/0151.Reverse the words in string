@@ -1,0 +1,76 @@
+stack-->
+class Solution {
+public:
+    string reverseWords(string s) {
+       string str;
+       int n=s.length();
+       stack<string>st;
+       for(int i=0;i<n;i++){
+        if(s[i]!=' '){
+          str+=s[i];
+        }
+        else if(!str.empty()){
+          st.push(str);
+          str.erase();
+       }
+       }
+       if(!str.empty())st.push(str);
+       str.erase();
+       while(!st.empty()){
+        str+=st.top();
+        st.pop();
+     if(!st.empty()) str+=' ';
+       }
+        return str;
+    }
+};
+
+stringstream-->
+
+class Solution {
+public:
+    string reverseWords(string s) {
+     vector<string>st;
+     string result;
+     stringstream ss(s);
+     while(ss>>result){
+        st.push_back(result);
+     }
+     reverse(st.begin(),st.end());
+     result.erase();
+       for(int i=0;i<st.size();i++){
+       result+=st[i];
+      if(i<st.size()-1) result+=' ';
+       }
+       
+       return result;
+    }
+};
+
+using inplace o(1) sc-->
+
+class Solution {
+public:
+    string reverseWords(string s) {
+       int n=s.length();
+    //    string str;
+       int index=0;
+       for(int i=0;i<n;i++){
+        if(s[i]!=' '||(index>0 && s[index-1]!=' ')){
+          s[index++]=s[i];
+        }
+       }
+        if(index>0 && s[index-1]==' ') index--;
+        s.resize(index);
+        reverse(s.begin(),s.end());
+        int start=0;
+        for(int i=0;i<s.length();i++){
+            if(s[i]==' '){
+                reverse(s.begin()+start,s.begin()+i);
+                start=i+1;
+            }
+        }
+        reverse(s.begin()+start,s.end());
+        return s;
+    }
+};

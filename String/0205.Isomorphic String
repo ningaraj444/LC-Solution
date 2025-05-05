@@ -1,0 +1,36 @@
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+       vector<int>indx_s(128);
+       vector<int>indx_t(128);
+       for(int i=0;i<s.length();i++){
+          if(indx_s[s[i]]!=indx_t[t[i]]) return false;
+            indx_s[s[i]]=i+1;
+            indx_t[t[i]]=i+1;
+       }
+       return true;
+    }
+};
+
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> map_s_to_t, map_t_to_s;
+        for (int i = 0; i < s.length(); i++) {
+            char char_s = s[i];
+            char char_t = t[i];
+            if (map_s_to_t.count(char_s) && map_s_to_t[char_s] != char_t) {
+                return false;
+            }
+            if (map_t_to_s.count(char_t) && map_t_to_s[char_t] != char_s) {
+                return false;
+            }
+            map_s_to_t[char_s] = char_t;
+            map_t_to_s[char_t] = char_s;
+        }
+
+        return true;
+    }
+};

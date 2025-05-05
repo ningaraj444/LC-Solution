@@ -1,0 +1,23 @@
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string str;
+        int num=0;
+        for(char ch:s){
+            if(ch=='('){
+                if(num>0){
+                    str+=ch;
+                }
+                num++;
+            }
+            else if(ch==')'){
+                num--;
+                if(num>0){
+                    str+=ch;
+                }
+            }
+        }
+        return str;
+    }
+};
