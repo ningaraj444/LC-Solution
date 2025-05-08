@@ -1,0 +1,27 @@
+
+class Solution {
+public:
+    bool possible(vector<int>&nums,int dist,int k){
+        int n=nums.size();
+        int last=nums[0];
+        int cowscnt=1;
+        for(int i=1;i<n;i++){
+            if(nums[i]-last>=dist){
+                cowscnt++;
+                last =nums[i];
+            }
+        }
+        return cowscnt>=k;
+    }
+    int aggressiveCows(vector<int> &nums, int k) {
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        int low=1,high=nums[n-1]-nums[0];
+        while(low<=high){
+           int mid=low+(high-low)/2;
+           if(possible(nums,mid,k)) low=mid+1;
+           else high=mid-1;
+        }
+        return high;
+    }
+};
