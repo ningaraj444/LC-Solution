@@ -1,0 +1,25 @@
+
+
+class Solution {
+public:
+    int findLengthOfLoop(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        int cnt = 0;
+
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (fast == slow) {
+                ListNode* temp = slow->next;
+                cnt = 1;
+                while (temp != slow) {
+                    temp = temp->next;
+                    cnt++;
+                }
+                break;
+            }
+        }
+        return cnt;
+    }
+};
