@@ -1,0 +1,20 @@
+
+
+class Solution {
+public:
+    int count = 0;
+
+    void backtrack(vector<int>& nums, int indx, int currSum, int k) {
+        if (currSum == k) count++;
+
+        for (int i = indx; i < nums.size(); i++) {
+            backtrack(nums, i + 1, currSum + nums[i], k);
+        }
+    }
+
+    int countSubsequenceWithTargetSum(vector<int>& nums, int k) {
+        count = 0;
+        backtrack(nums, 0, 0, k);
+        return count;
+    }
+};
