@@ -6,7 +6,7 @@ public:
             result.push_back(list);
             return;
         }
-        if(target<0){
+        if(target<0 || idx>=candidates.size()){
             return;
         }
         for(int i=idx;i<candidates.size();i++){
