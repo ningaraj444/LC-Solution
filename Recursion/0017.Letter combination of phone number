@@ -22,3 +22,27 @@ public:
         return result;
     }
 };
+
+class Solution {
+public:
+    void backtrack(vector<string>&res,string& curr, string& digits,vector<string>& mpp,int indx){
+        if(indx==digits.size()){
+            res.push_back(curr);
+            return;
+        }
+        int digit=digits[indx]-'0';
+        for(char ch:mpp[digit]){
+             curr.push_back(ch);
+             backtrack(res,curr,digits,mpp,indx+1);
+             curr.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits.length()==0) return{};
+        vector<string>res;
+        string curr;
+        vector<string>mpp={"", "", "abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        backtrack(res,curr,digits,mpp,0);
+        return res;
+    }
+};
