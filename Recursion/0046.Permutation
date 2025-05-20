@@ -1,38 +1,4 @@
 
-class Solution {
-public:
-    std::vector<std::vector<int>> permuteUnique(std::vector<int>& nums) {
-        std::vector<std::vector<int>> result;
-        std::vector<int> current;
-        std::vector<bool> visited(nums.size(), false);
-        
-        std::sort(nums.begin(), nums.end());  
-        backtrack(nums, current, visited, result);
-        return result;
-    }
-
-private:
-    void backtrack(const std::vector<int>& nums, std::vector<int>& current, 
-                   std::vector<bool>& visited, std::vector<std::vector<int>>& result) {
-        if (current.size() == nums.size()) {
-            result.push_back(current);
-            return;
-        }
-        
-        for (int i = 0; i < nums.size(); ++i) {
-            if (visited[i] || (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1])) continue;
-            visited[i] = true;
-            current.push_back(nums[i]);
-
-            backtrack(nums, current, visited, result);
-            
-           
-            visited[i] = false;
-            current.pop_back();
-        }
-    }
-};
-
 
 another-->
 
@@ -46,5 +12,30 @@ public:
             v.push_back(nums);
         }
         return v;
+    }
+};
+
+class Solution {
+public:
+    void backtrack(vector<int>&nums,vector<vector<int>>&res,vector<int>&curr,vector<bool>&flag){
+        if(curr.size()==nums.size()){
+            res.push_back(curr);
+            return;
+        }
+        for(int i=0;i<nums.size();i++){
+            if(flag[i]) continue;
+            curr.push_back(nums[i]);
+            flag[i]=true;
+            backtrack(nums,res,curr,flag);
+            curr.pop_back();
+            flag[i]=false;
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>>res;
+        vector<int>curr;
+        vector<bool>flag(nums.size(),false);
+        backtrack(nums,res,curr,flag);
+        return res;
     }
 };
