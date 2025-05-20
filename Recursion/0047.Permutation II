@@ -1,16 +1,18 @@
 
+
 class Solution {
 public:
-    void backtrack(vector<int>&nums,vector<int>&curr,vector<bool>&flag,set<vector<int>>&st){
+    void backtrack(vector<int>&nums,vector<int>&curr,vector<bool>&flag,vector<vector<int>>&res){
         if(curr.size()==nums.size()){
-                st.insert(curr);
+                res.push_back(curr);
                  return; 
         }
         for(int i=0;i<nums.size();i++){
             if(flag[i]) continue;
+              if (i > 0 && nums[i] == nums[i-1] && !flag[i-1]) continue;
             curr.push_back(nums[i]);
             flag[i]=true;
-            backtrack(nums,curr,flag,st);
+            backtrack(nums,curr,flag,res);
             curr.pop_back();
             flag[i]=false;
         }
@@ -20,11 +22,7 @@ public:
         vector<int>curr;
         sort(nums.begin(),nums.end());
         vector<bool>flag(nums.size(),false);
-        set<vector<int>>st;
-        backtrack(nums,curr,flag,st);
-        for(const auto& it:st){
-            res.push_back(it);
-        }
+        backtrack(nums,curr,flag,res);
         return res;
     }
 };
