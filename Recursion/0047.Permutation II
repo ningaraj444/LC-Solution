@@ -1,0 +1,30 @@
+
+class Solution {
+public:
+    void backtrack(vector<int>&nums,vector<int>&curr,vector<bool>&flag,set<vector<int>>&st){
+        if(curr.size()==nums.size()){
+                st.insert(curr);
+                 return; 
+        }
+        for(int i=0;i<nums.size();i++){
+            if(flag[i]) continue;
+            curr.push_back(nums[i]);
+            flag[i]=true;
+            backtrack(nums,curr,flag,st);
+            curr.pop_back();
+            flag[i]=false;
+        }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>res;
+        vector<int>curr;
+        sort(nums.begin(),nums.end());
+        vector<bool>flag(nums.size(),false);
+        set<vector<int>>st;
+        backtrack(nums,curr,flag,st);
+        for(const auto& it:st){
+            res.push_back(it);
+        }
+        return res;
+    }
+};
