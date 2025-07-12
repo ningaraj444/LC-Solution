@@ -1,0 +1,38 @@
+
+brute force  using backtrack -->
+Time: O(C(2n, n)) ≈ O(2^2n) brute force
+Space: O(n) for recursion stack
+
+
+  #include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int totalSum;
+    int minDiff = INT_MAX;
+
+    void backtrack(vector<int>& nums, int index, int count, int sum1, int n) {
+        if (count == n) {
+            int sum2 = totalSum - sum1;
+            minDiff = min(minDiff, abs(sum1 - sum2));
+            return;
+        }
+
+        // Prune: not enough elements left to complete group of size n
+        if (index >= nums.size() || (nums.size() - index) < (n - count)) return;
+
+        // Take nums[index] into group1
+        backtrack(nums, index + 1, count + 1, sum1 + nums[index], n);
+
+        // Skip nums[index]
+        backtrack(nums, index + 1, count, sum1, n);
+    }
+
+    int minimumDifference(vector<int>& nums) {
+        totalSum = accumulate(nums.begin(), nums.end(), 0);
+        int n = nums.size() / 2;
+        backtrack(nums, 0, 0, 0, n);
+        return minDiff;
+    }
+};
