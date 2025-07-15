@@ -1,0 +1,52 @@
+
+
+class Solution {
+public:
+   
+    int helper(int indx,vector<int>&coins,int amount,vector<vector<int>>&dp){
+        if(amount==0) return 0;
+        if(indx==0){
+            if(amount%coins[0]==0) return amount/coins[0];
+                return 1e9;
+        }
+        if(dp[indx][amount]!=-1) return dp[indx][amount];
+        int not_take=helper(indx-1,coins,amount,dp);
+        int take=1e9;
+        if(coins[indx]<=amount) take=1+helper(indx,coins,amount-coins[indx],dp);
+        return dp[indx][amount]=min(take,not_take);
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+       int n=coins.size();
+       vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+       int res=helper(n-1,coins,amount,dp);
+       return (res>=1e9) ? -1 : res;
+    } 
+};
+
+
+
+class Solution {
+public:
+
+    int coinChange(vector<int>& coins, int amount) {
+       int n=coins.size();
+       vector<vector<int>>dp(n,vector<int>(amount+1,1e9));
+         for(int indx=0;indx<n;indx++) dp[indx][0]=0;
+       
+        for(int sum=1;sum<=amount;sum++){
+            if(sum%coins[0]==0) dp[0][sum]=sum/coins[0];
+        }
+
+       for(int indx=1;indx<n;indx++){
+          for(int sum=0;sum<=amount;sum++){
+              int not_take=dp[indx-1][sum];
+              int take=1e9;
+              if(coins[indx]<=sum) take=1+dp[indx][sum-coins[indx]];
+              dp[indx][sum]=min(take,not_take);
+          }
+       }
+       int ans=dp[n-1][amount];
+       return (ans>=1e9) ? -1 :ans;
+    } 
+};
