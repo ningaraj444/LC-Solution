@@ -1,0 +1,35 @@
+
+
+class Solution {
+public:
+
+    int helper(vector<int>&nums,int target){
+        int n=nums.size();
+        vector<int>prev(target+1,0),curr(target+1,0);
+        if(nums[0]==0) prev[0]=2;
+        else prev[0]=1;
+
+        if(nums[0]!=0 && nums[0]<=target) prev[nums[0]]=1;
+
+        for(int indx=1;indx<n;indx++){
+            for(int tar=0;tar<=target;tar++){
+                int not_take=prev[tar];
+                int take=0;
+                if(nums[indx]<=tar) take=prev[tar-nums[indx]];
+                curr[tar]=not_take+take;
+            }
+            prev=curr;
+        }
+        return prev[target];
+    }
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int total_sum=0;
+        int n=nums.size();
+        for(int i=0;i<n;i++) total_sum+=nums[i];
+        if (abs(target) > total_sum) return 0;
+        if(total_sum<0 || (total_sum-target)%2) return 0;
+        return helper(nums,(total_sum-target)/2);
+
+    }
+};
