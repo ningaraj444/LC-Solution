@@ -1,0 +1,80 @@
+
+class Solution {
+public:
+
+   int helper(int indx,vector<int>&coins,int amount){
+      if(indx==0){
+        if(amount%coins[0]==0) return 1;
+        else return 0;
+      }
+      if(amount==0) return 1;
+      int not_take=helper(indx-1,coins,amount);
+      int take=0;
+      if(coins[indx]<=amount)
+          take+=helper(indx,coins,amount-coins[indx]);
+      return take+not_take;
+   }
+
+    int change(int amount, vector<int>& coins) {
+        int n=coins.size();
+        return helper(n-1,coins,amount);
+    }
+};
+
+
+
+
+class Solution {
+public:
+
+   int helper(int indx,vector<int>&coins,int amount,vector<vector<int>>&dp){
+      if(indx==0){
+        if(amount%coins[0]==0) return 1;
+        else return 0;
+      }
+      if(amount==0) return 1;
+      if(dp[indx][amount]!=-1) return dp[indx][amount];
+      int not_take=helper(indx-1,coins,amount,dp);
+      int take=0;
+      if(coins[indx]<=amount)
+          take+=helper(indx,coins,amount-coins[indx],dp);
+      return dp[indx][amount]=take+not_take;
+   }
+
+    int change(int amount, vector<int>& coins) {
+        int n=coins.size();
+        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+        return helper(n-1,coins,amount,dp);
+    }
+};
+
+
+
+
+class Solution {
+public:
+  
+
+    int change(int amount, vector<int>& coins) {
+        int n=coins.size();
+        vector<vector<long long>>dp(n,vector<long long>(amount+1,0));
+       
+        for (int tar = 0; tar <= amount; tar++) {
+            if (tar % coins[0] == 0) dp[0][tar] = 1;
+        }
+
+        for(int indx=1;indx<n;indx++){
+            for(int tar=0;tar<=amount;tar++){
+                  int not_take=dp[indx-1][tar];
+                  int take=0;
+                  if(coins[indx]<=tar)
+                       take+=dp[indx][tar-coins[indx]];
+                  dp[indx][tar]=(long long)take+not_take;
+            }
+        }
+        return (int)dp[n-1][amount];
+    }
+};
+
+
+
