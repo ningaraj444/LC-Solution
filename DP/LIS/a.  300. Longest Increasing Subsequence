@@ -85,11 +85,11 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
         int maxi=0,last_indx=0;
-        vector<int>dp(n,1),has(n,0);
+        vector<int>dp(n,1),hash(n,0);
         for(int indx=0;indx<n;indx++){
             hash[indx]=indx;
             for(int prev=0;prev<indx;prev++){
-                if(nums[prev]<nums[indx] && dp[indx]>1+dp[prev]){
+                if(nums[prev]<nums[indx] && dp[indx]<1+dp[prev]){
                      dp[indx]=max(dp[indx],1+dp[prev]);
                      hash[indx]=prev;
                 }
