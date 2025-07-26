@@ -36,3 +36,21 @@ public:
 };
 
 
+
+class Solution {
+public:
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        int maxi=0;
+        vector<int>dp(n,1);
+        for(int indx=0;indx<n;indx++){
+            for(int prev=0;prev<indx;prev++){
+                if(nums[prev]<nums[indx]) dp[indx]=max(dp[indx],1+dp[prev]);
+            }
+            maxi=max(maxi,dp[indx]);
+        }
+        return maxi;
+    }
+};
+
