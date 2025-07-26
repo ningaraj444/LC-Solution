@@ -110,6 +110,7 @@ public:
     }
 };
 
+Using Binary Search:
 
 
 class Solution {
