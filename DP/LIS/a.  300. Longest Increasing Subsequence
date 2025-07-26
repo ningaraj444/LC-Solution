@@ -54,3 +54,35 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        int maxi=0,last_indx=0;
+        vector<int>dp(n,1),has(n,0);
+        for(int indx=0;indx<n;indx++){
+            hash[indx]=indx;
+            for(int prev=0;prev<indx;prev++){
+                if(nums[prev]<nums[indx] && dp[indx]>1+dp[prev]){
+                     dp[indx]=max(dp[indx],1+dp[prev]);
+                     hash[indx]=prev;
+                }
+            }
+            if(dp[indx]>maxi){
+                maxi=dp[indx];
+                last_indx=indx;
+            }   
+        }
+        vector<int>temp;
+        temp.push_back(nums[last_indx]);
+        while(hash[last_indx]!=last_indx){
+            last_indx=hash[last_indx];
+            temp.push_back(nums[last_indx]);
+        }
+        return temp;
+    }
+};
+
