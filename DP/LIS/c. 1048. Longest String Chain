@@ -1,0 +1,87 @@
+
+as SubSequence of string :-
+
+  class Solution {
+public:
+
+   bool isPredecessor(string &shorter, string &longer) {
+    if (longer.size() != shorter.size() + 1) return false;
+
+    int first = 0, second = 0;
+    while (first < longer.size()) {
+        if (second < shorter.size() && shorter[second] == longer[first]) second++;
+        first++;
+    }
+    return second == shorter.size();
+}
+
+
+    int longestStrChain(vector<string>& words) {
+       sort(words.begin(),words.end());
+        int n=words.size();
+        int maxi=0;
+        vector<int>dp(n,1);
+        for(int indx=0;indx<n;indx++){
+            for(int prev=0;prev<indx;prev++){
+                if(isPredecessor(words[prev], words[indx])) dp[indx]=max(dp[indx],1+dp[prev]);
+            }
+            maxi=max(maxi,dp[indx]);
+        }
+        return maxi;
+    
+    }
+};
+
+
+
+as Sequence not SubSequence (can pick any where in array) :-
+
+
+  class Solution {
+public:
+
+   bool isPredecessor(string &shorter, string &longer) {
+    if (longer.size() != shorter.size() + 1) return false;
+
+    int first = 0, second = 0;
+    while (first < longer.size()) {
+        if (second < shorter.size() && shorter[second] == longer[first]) second++;
+        first++;
+    }
+    return second == shorter.size();
+}
+
+
+    int longestStrChain(vector<string>& words) {
+       sort(words.begin(), words.end(), [](const string &a, const string &b) {
+    return a.length() < b.length();
+});
+
+        int n=words.size();
+        int maxi=0;
+        vector<int>dp(n,1);
+        for(int indx=0;indx<n;indx++){
+            for(int prev=0;prev<indx;prev++){
+                if(isPredecessor(words[prev], words[indx])) dp[indx]=max(dp[indx],1+dp[prev]);
+            }
+            maxi=max(maxi,dp[indx]);
+        }
+        return maxi;
+    
+    }
+};
+
+These can be changed -->
+
+sort(words.begin(), words.end(), [](const string &a, const string &b) {
+    return a.length() < b.length();
+});
+
+OR
+
+static bool comp(string& s1,string& s2){
+    return s1.size()<s2.size();
+}
+ sort(words.begin(), words.end(), comp);
+
+
