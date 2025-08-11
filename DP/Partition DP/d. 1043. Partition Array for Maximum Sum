@@ -1,0 +1,48 @@
+
+
+class Solution {
+public:
+    int helper(int indx, int n, int k, vector<int> &arr, vector<int> &dp){
+        if(indx==n) return 0;
+        if(dp[indx]!=-1) return dp[indx];
+
+        int len=0, maxi=INT_MIN, maxSum=INT_MIN;
+        for(int j=indx;j<min(indx+k,n);j++){
+           len++;
+           maxi=max(maxi,arr[j]);
+           int sum= (maxi*len) + helper(j+1, n, k,arr,dp);
+           maxSum=max(maxSum,sum);
+        }
+        return dp[indx]=maxSum;
+    }
+   
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();
+        vector<int>dp(n,-1);
+        return helper(0,n,k,arr,dp);
+    }
+};
+
+
+
+
+class Solution {
+public:
+   
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();
+        vector<int>dp(n+1,0);
+        for(int indx=n-1;indx>=0;indx--){
+              int len=0, maxi=INT_MIN, maxSum=INT_MIN;
+              for(int j=indx;j<min(indx+k,n);j++){
+                    len++;
+                    maxi=max(maxi,arr[j]);
+                    int sum= (maxi*len) + dp[j+1];
+                    maxSum=max(maxSum,sum);
+                }
+             dp[indx]=maxSum;
+        }
+        return dp[0];
+    }
+};
+
